@@ -1582,6 +1582,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &162496076 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1275641748479793292, guid: 0dd4ed60bd4daa24cb53285a1b07bc46, type: 3}
+  m_PrefabInstance: {fileID: 2415436451267348357}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &166933154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23612,6 +23623,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player3thPerson
       objectReference: {fileID: 0}
+    - target: {fileID: 1770054076813381428, guid: 0dd4ed60bd4daa24cb53285a1b07bc46, type: 3}
+      propertyPath: starterAssetsInputs
+      value: 
+      objectReference: {fileID: 162496076}
     - target: {fileID: 2154603220105824814, guid: 0dd4ed60bd4daa24cb53285a1b07bc46, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -23620,6 +23635,10 @@ PrefabInstance:
       propertyPath: FlythroughDirector
       value: 
       objectReference: {fileID: 3547149924374491353}
+    - target: {fileID: 4619501280035683697, guid: 0dd4ed60bd4daa24cb53285a1b07bc46, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4987971068286575793, guid: 0dd4ed60bd4daa24cb53285a1b07bc46, type: 3}
       propertyPath: m_VertexColorAlwaysGammaSpace
       value: 1
