@@ -12,24 +12,24 @@ public class SceneTransitionManager : MonoBehaviour
     [Tooltip("Enable to debug the transition effect")] //TODO: do we want to remove this? 
     [SerializeField] private bool m_OverrideTransition;
     [SerializeField][Range(0, 1)] private float m_ManualTransition;
-    
+
     [Tooltip("The amount of time it takes to transition between two scenes")]
     [SerializeField] private float m_TransitionTime;
 
     private Camera m_MainCamera;
     private Camera m_ScreenCamera;
-    private CharacterController m_Player;
+    internal CharacterController m_Player;
     private PlayerManager m_CameraManager;
 
     private bool m_InitialSceneLoad;
 
-    private static SceneTransitionManager instance;
+    internal static SceneTransitionManager instance;
 
     [Tooltip("Layers to render when in a location")]
     [SerializeField] private LayerMask locationLayer;
     [Tooltip("Layers to render when in the terminal")]
     [SerializeField] private LayerMask m_TerminalLayer;
-    
+
     private bool InTerminal = true;
 
     private bool m_EneableCharacterInFollowingFrame = false;
@@ -37,7 +37,7 @@ public class SceneTransitionManager : MonoBehaviour
     private SceneLoader m_Loader;
 
     private Transform spawnTransform;
-    
+
     private Vector3 m_PositionAtLock;
     private Quaternion m_RotationAtLock;
 
@@ -53,7 +53,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     private Vector3 m_CameraPosition;
     private Quaternion m_CameraRotation;
-    
+
     //Used for cinemachine transition
     private MediaSceneLoader m_MediaSceneLoader;
 
@@ -68,9 +68,9 @@ public class SceneTransitionManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         SetupSingleton();
-        
+
         SetupReferences();
 
         SetupInitialState();
@@ -93,11 +93,13 @@ public class SceneTransitionManager : MonoBehaviour
         m_Player = GameObject.Find("PlayerCapsule")?.GetComponent<CharacterController>(); //TODO: Don't hardcode string
         if (m_Player == null)
         {
-            Debug.Log("Couldn't find character controller");
+            m_Player = GameObject.Find("PlayerArmature")?.GetComponent<CharacterController>(); //TODO: Don't hardcode string
+            if (m_Player == null)
+                Debug.Log("Couldn't find character controller");
         }
 
         m_CameraManager = m_Player.transform.parent.GetComponent<PlayerManager>();
-            
+
         m_MainCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>();
 
         if (m_MainCamera == null)
@@ -124,7 +126,7 @@ public class SceneTransitionManager : MonoBehaviour
         registeredScenes = new Dictionary<string, SceneMetaData>();
 
         m_ScreenOff = true;
-        
+
         RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
     }
     #endregion
@@ -133,7 +135,11 @@ public class SceneTransitionManager : MonoBehaviour
     {
         if (m_EneableCharacterInFollowingFrame)
         {
-            m_Player.GetComponent<StarterAssets.FirstPersonController>().enabled = true;
+            if (m_Player.GetComponent<StarterAssets.FirstPersonController>())
+                m_Player.GetComponent<StarterAssets.FirstPersonController>().enabled = true;
+            else
+                m_Player.GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
+
             m_EneableCharacterInFollowingFrame = false;
         }
 
@@ -147,13 +153,13 @@ public class SceneTransitionManager : MonoBehaviour
             {
                 TriggerTeleport();
             }
-            
+
             ElapsedTimeInTransition = Mathf.Min(m_TransitionTime, ElapsedTimeInTransition);
         }
         else
         {
             ElapsedTimeInTransition -= Time.deltaTime * 3;
-            
+
             if (ElapsedTimeInTransition < 0 && CoolingOff)
             {
                 CoolingOff = false;
@@ -175,7 +181,7 @@ public class SceneTransitionManager : MonoBehaviour
     private void TriggerTeleport()
     {
         InTransition = false;
-                
+
         if (m_Loader != null)
         {
             m_Loader.SetVolumeWeights(1);
@@ -189,11 +195,11 @@ public class SceneTransitionManager : MonoBehaviour
         {
             Teleport();
         }
-                
+
         m_Loader = null;
         CoolingOff = true;
     }
-    
+
     /// <summary>
     /// This function is called per camera by the render pipeline.
     /// We use it to set up light and render settings (skybox etc) for the different scenes as they are displayed
@@ -207,7 +213,7 @@ public class SceneTransitionManager : MonoBehaviour
             //If no screen scene is loaded, no setup needs to be done for it
             return;
         }
-        
+
         //Toggle main light
         if (camera.cameraType == CameraType.SceneView)
         {
@@ -272,7 +278,7 @@ public class SceneTransitionManager : MonoBehaviour
             Debug.LogError("Can't teleport without two scenes enabled");
             return;
         }
-        
+
         instance.InTerminal = !instance.InTerminal;
         instance.UpdateCullingMasks();
 
@@ -280,8 +286,18 @@ public class SceneTransitionManager : MonoBehaviour
         Transform playerTransform = instance.m_Player.transform;
 
         //Disable character controller while manipulating positions
-        StarterAssets.FirstPersonController controller = playerTransform.GetComponent<StarterAssets.FirstPersonController>();
-        controller.enabled = false;
+
+        if (playerTransform.GetComponent<StarterAssets.FirstPersonController>())
+        {
+            StarterAssets.FirstPersonController controller = playerTransform.GetComponent<StarterAssets.FirstPersonController>();
+            controller.enabled = false;
+        }
+        else
+        {
+            StarterAssets.ThirdPersonController controller = playerTransform.GetComponent<StarterAssets.ThirdPersonController>();
+            controller.enabled = false;
+        }
+
 
         bool newPositionLocked = instance.screenScene.CameraLockTransform != null;
         bool comingFromLockedPosition = instance.currentScene.CameraLockTransform != null;
@@ -291,20 +307,20 @@ public class SceneTransitionManager : MonoBehaviour
             //Cache transform player before moving
             instance.m_PositionAtLock = playerTransform.position;
             instance.m_RotationAtLock = playerTransform.rotation;
-            
+
             //Set position, parent and rotation to new locked location
             Transform cameraLockTransform = instance.screenScene.CameraLockTransform;
-            
+
             playerTransform.parent.parent = cameraLockTransform;
-            
+
             playerTransform.position = cameraLockTransform.position;
             playerTransform.rotation = cameraLockTransform.rotation;
-            
+
             //Disable the player to prevent them from moving
             instance.m_Player.enabled = false;
-            
+
             instance.m_MainCamera.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = false; //TODO: this is hardcoded for the cockpit. Should probably be in the metadata
-            
+
             DisableScene(instance.currentScene);
         }
         else
@@ -314,50 +330,50 @@ public class SceneTransitionManager : MonoBehaviour
 
             //Position the player at the screen camera position
             playerTransform.position = instance.m_ScreenCamera.transform.position - playerCameraOffset;
-            
+
             //Toggle the offset of the screen camera to put it where the player used to be
             OffsetCamera oc = instance.m_ScreenCamera.GetComponent<OffsetCamera>();
             oc.ToggleOffset();
-            
+
             //Reset transform if teleporting from a locked position
             if (comingFromLockedPosition)
             {
-                
+
                 Transform playerParent = playerTransform.parent;
-                
+
                 playerParent.rotation = Quaternion.identity;
                 playerParent.parent = null;
                 DontDestroyOnLoad(playerParent);
                 playerTransform.rotation = instance.m_RotationAtLock;
                 playerTransform.position = instance.m_PositionAtLock;
                 instance.m_Player.enabled = true;
-                
+
                 EnableScene(instance.screenScene);
             }
 
             instance.m_MainCamera.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = true; //see same line in the locked transform case
         }
-        
+
         instance.m_CameraManager.FlythroughDirector = instance.screenScene.FlythroughDirector;
 
         instance.m_MainCamera.GetComponent<CinemachineBrain>().m_WorldUpOverride =
             instance.screenScene.WorldUpTransform;
-        
+
         //Enable or disable post based on what the new scene needs
         UniversalAdditionalCameraData mainCameraData = instance.m_MainCamera.GetComponent<UniversalAdditionalCameraData>();
-        
+
         mainCameraData.renderPostProcessing = instance.screenScene.PostProcessingEnabled;
         mainCameraData.SetRenderer(instance.screenScene.RendererIndex);
 
         //Reenable controller after teleporting
         instance.m_EneableCharacterInFollowingFrame = true;
-        
+
         SceneManager.SetActiveScene(instance.screenScene.Scene);
-        
+
         //This is weird
         RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
-        
-        
+
+
 
         //Swap references to screen and current scene
         (instance.screenScene, instance.currentScene) = (instance.currentScene, instance.screenScene);
@@ -405,7 +421,7 @@ public class SceneTransitionManager : MonoBehaviour
             {
                 scene.SequenceDirector.Play();
             }
-            
+
         }
     }
 
@@ -443,14 +459,24 @@ public class SceneTransitionManager : MonoBehaviour
     public static void NotifySceneLoading()
     {
         instance.m_ScenesLoading++;
-        instance.m_Player.GetComponent<StarterAssets.FirstPersonController>().enabled = false;
+        if (instance.m_Player.GetComponent<StarterAssets.FirstPersonController>())
+            instance.m_Player.GetComponent<StarterAssets.FirstPersonController>().enabled = false;
+        else
+            instance.m_Player.GetComponent<StarterAssets.ThirdPersonController>().enabled = false;
     }
-    
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         instance.m_ScenesLoading--;
-        if(instance.m_ScenesLoading == 0) instance.m_Player.GetComponent<StarterAssets.FirstPersonController>().enabled = true;
+
+        if (instance.m_Player.GetComponent<StarterAssets.FirstPersonController>())
+        {
+            if (instance.m_ScenesLoading == 0) instance.m_Player.GetComponent<StarterAssets.FirstPersonController>().enabled = true;
+        }
+        else
+            if (instance.m_ScenesLoading == 0) instance.m_Player.GetComponent<StarterAssets.ThirdPersonController>().enabled = true;
     }
+
 
     /// <summary>
     /// This function is called by the scene loader when the player enters its trigger
@@ -497,11 +523,11 @@ public class SceneTransitionManager : MonoBehaviour
         {
             sceneLoader.screen.TurnScreenOn();
         }
-        
+
         //Set the renderer index
         int index = sceneMetaData.RendererIndex > 1 ? sceneMetaData.RendererIndex : 1;
         instance.m_ScreenCamera.GetComponent<UniversalAdditionalCameraData>().SetRenderer(index);
-        
+
         instance.m_ScreenCamera.GetComponent<Camera>().enabled = true;
         instance.m_ScreenOff = false;
     }
@@ -536,7 +562,7 @@ public class SceneTransitionManager : MonoBehaviour
                 {
                     sceneMetaData.Root.SetActive(false);
                     instance.m_ScreenCamera.GetComponent<Camera>().enabled = false;
-                    
+
                 }
             });
         }
@@ -564,7 +590,7 @@ public class SceneTransitionManager : MonoBehaviour
     public static void StartTransition(MediaSceneLoader mediaSceneLoader)
     {
         if (!IsAvailable()) return;
-        
+
         instance.m_MediaSceneLoader = mediaSceneLoader;
         if (!instance.InTerminal)
         {
@@ -577,7 +603,7 @@ public class SceneTransitionManager : MonoBehaviour
     {
         instance.InTransition = false;
     }
-    
+
     public static bool DissolveNeeded()
     {
         return instance != null && instance.ElapsedTimeInTransition > 0.001f;
