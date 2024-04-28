@@ -95,7 +95,9 @@ public class SceneTransitionManager : MonoBehaviour
         {
             m_Player = GameObject.Find("PlayerArmature")?.GetComponent<CharacterController>(); //TODO: Don't hardcode string
             if (m_Player == null)
-                Debug.Log("Couldn't find character controller");
+            m_Player = FindObjectOfType<CharacterController>(); //TODO: Don't hardcode string
+            if (m_Player == null)
+            Debug.Log("Couldn't find character controller");
         }
 
         m_CameraManager = m_Player.transform.parent.GetComponent<PlayerManager>();

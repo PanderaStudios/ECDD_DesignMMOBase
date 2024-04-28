@@ -8,6 +8,15 @@ TagManager:
   - CinemachineTarget
   - ScreenCamera
   - cockpit_capitalLaser
+  - Wall
+  - Portal
+  - Enemy
+  - Trampoline
+  - PlayerBody
+  - CheckPoint
+  - CheckPoints
+  - WrongCube
+  - PathCube
   layers:
   - Default
   - TransparentFX
@@ -24,7 +33,7 @@ TagManager:
   - MainCameraOnly
   - 
   - 
-  - 
+  - Player
   - 
   - 
   - 

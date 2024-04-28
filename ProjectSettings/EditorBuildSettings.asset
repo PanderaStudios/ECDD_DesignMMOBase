@@ -9,17 +9,26 @@ EditorBuildSettings:
     path: Assets/SharedAssets/Benchmark/BenchmarkScene.unity
     guid: d1335b3b949d2e646b481776723757a2
   - enabled: 1
+    path: Assets/_MyProject/Scenes/ECDDLobby.unity
+    guid: 213e0ec466d1a604bb84079fbaa62036
+  - enabled: 1
     path: Assets/_MyProject/Scenes/TerminalScene.unity
     guid: dde547d02d7141547977c52791d6e6e8
-  - enabled: 1
+  - enabled: 0
     path: Assets/_MyProject/Scenes/OasisScene.unity
     guid: 0380d4dc281d6b140b45faeb25a6050a
-  - enabled: 1
+  - enabled: 0
     path: Assets/_MyProject/Scenes/GardenScene.unity
     guid: f463a26d84f83304381fbb7048901aa5
-  - enabled: 1
+  - enabled: 0
     path: Assets/_MyProject/Scenes/CockpitScene.unity
     guid: a9e4e94c495b4514db642e336fd5c3e4
+  - enabled: 0
+    path: Assets/_MyProject/TPS_SLAPGUYS/Scenes/GardenSceneMMO.unity
+    guid: 9cf9af0bc5044d142b7b8489af297b80
+  - enabled: 0
+    path: Assets/_MyProject/TPS_SLAPGUYS/Scenes/OasisSceneMMO.unity
+    guid: 0ff7a428dd873f742a80bc41c94a11ad
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 290a6e6411d135049940bec2237b8938, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
