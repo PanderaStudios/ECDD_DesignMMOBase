@@ -4,7 +4,6 @@ Shader "UI/CirkleShader"
     // because the output color is predefined in the fragment shader code.
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
         _Color("Color", Color) = (.25, .5, .5, 1)
     }
 

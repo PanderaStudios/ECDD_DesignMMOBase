@@ -5,6 +5,7 @@ Shader "Custom/StencilOnly" {
         SubShader{
             Tags { "RenderType" = "Opaque" "Queue" = "Geometry"}
             LOD 200
+
             ZWrite Off
             
             Stencil
@@ -19,5 +20,5 @@ Shader "Custom/StencilOnly" {
 
             Pass{}
     }
-        
+        FallBack "Diffuse"
 }

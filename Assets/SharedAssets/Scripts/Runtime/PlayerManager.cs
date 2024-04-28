@@ -15,34 +15,34 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject m_CrosshairCanvas;
     [SerializeField] private GameObject m_TouchInputCanvas;
     [SerializeField] private GameObject m_EventSystem;
-
+    
     public PlayableDirector FlythroughDirector;
-
+    
     private bool m_InFlythrough;
     private float m_TimeIdle;
     private CinemachineVirtualCamera m_VirtualCamera;
     private bool m_HasFocus;
-
+    
     void Start()
     {
         if (EventSystem.current == null)
         {
             m_EventSystem.SetActive(true);
         }
-
+        
         if (PerformanceTest.RunningBenchmark)
         {
             Destroy(gameObject);
             return;
         }
-
+        
         m_InFlythrough = false;
 
         if (SystemInfo.deviceType == DeviceType.Handheld)
         {
             m_TouchInputCanvas.SetActive(true);
         }
-
+        
         m_VirtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
     }
 
@@ -53,11 +53,11 @@ public class PlayerManager : MonoBehaviour
             m_TimeIdle = 0;
             EnableFlythrough();
         }
-#if UNITY_EDITOR
-        if (m_HasFocus) m_TimeIdle += Time.unscaledDeltaTime;
-#else
+        #if UNITY_EDITOR
+        if(m_HasFocus) m_TimeIdle += Time.unscaledDeltaTime;
+        #else 
         m_TimeIdle += Time.unscaledDeltaTime;
-#endif
+        #endif
     }
 
     private void Awake()
@@ -75,7 +75,7 @@ public class PlayerManager : MonoBehaviour
             SceneTransitionManager.DisableLoadedScene();
             SceneTransitionManager.StopTransition();
         }
-
+        
         if (FlythroughDirector == null)
         {
             m_VirtualCamera.gameObject.SetActive(false);
@@ -84,10 +84,10 @@ public class PlayerManager : MonoBehaviour
         else
         {
             FlythroughDirector.gameObject.SetActive(true);
-
+        
             TimelineAsset timeline = FlythroughDirector.playableAsset as TimelineAsset;
             FlythroughDirector.SetGenericBinding(timeline.GetOutputTrack(0), GetComponentInChildren<CinemachineBrain>());
-
+        
             FlythroughDirector.time = 0;
             FlythroughDirector.Play();
             m_InFlythrough = true;
@@ -99,7 +99,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
+    
     private void OnApplicationFocus(bool hasFocus)
     {
         m_HasFocus = hasFocus;
@@ -112,15 +112,16 @@ public class PlayerManager : MonoBehaviour
             SceneTransitionManager.DisableLoadedScene();
             SceneTransitionManager.StopTransition();
         }
-
+        
         m_VirtualCamera.gameObject.SetActive(true);
-        m_CrosshairCanvas.SetActive(SceneTransitionManager.instance.m_Player.GetComponent<StarterAssets.FirstPersonController>() != null);
+        m_CrosshairCanvas.SetActive(true);
+        
         if (FlythroughDirector != null)
         {
             FlythroughDirector.gameObject.SetActive(false);
         }
         m_InFlythrough = false;
-
+        
     }
 
     public void NotifyPlayerMoved()

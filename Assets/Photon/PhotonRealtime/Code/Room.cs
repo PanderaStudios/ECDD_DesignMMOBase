@@ -147,7 +147,7 @@ namespace Photon.Realtime
         /// As part of RoomInfo this can't be set.
         /// As part of a Room (which the player joined), the setter will update the server and all clients.
         /// </remarks>
-        public new int MaxPlayers
+        public new byte MaxPlayers
         {
             get
             {
@@ -156,22 +156,20 @@ namespace Photon.Realtime
 
             set
             {
-                if (value >= 0 && value != this.maxPlayers)
+                if (value != this.maxPlayers)
                 {
-                    // the following code is for compatibility with old and new servers. old use MaxPlayers, which has to be byte typed. MaxPlayersInt is available on new servers to allow int typed MaxPlayer values.
-                    // added to server 5.0.19.xyz / 6.0.19.xyz respectively
-                    this.maxPlayers = value;
-                    byte maxPlayersAsByte = value <= byte.MaxValue ? (byte)value : (byte)0;
                     if (!this.isOffline)
                     {
-                        this.LoadBalancingClient.OpSetPropertiesOfRoom(new Hashtable() { { GamePropertyKey.MaxPlayers, maxPlayersAsByte }, { GamePropertyKey.MaxPlayersInt, this.maxPlayers } });
+                        this.LoadBalancingClient.OpSetPropertiesOfRoom(new Hashtable() { { GamePropertyKey.MaxPlayers, value } });
                     }
                 }
+
+                this.maxPlayers = value;
             }
         }
 
         /// <summary>The count of players in this Room (using this.Players.Count).</summary>
-        public new int PlayerCount
+        public new byte PlayerCount
         {
             get
             {
@@ -200,6 +198,29 @@ namespace Photon.Realtime
                 this.players = value;
             }
         }
+
+        private Dictionary<int, Player> finishedPlayers = new();
+        public Dictionary<int, Player> FinishedPlayers
+        {
+            get
+            {
+                return this.finishedPlayers;
+            }
+            private set
+            {
+                this.finishedPlayers = value;
+            }
+        }
+        public int FinishedPlayersCount
+        {
+            get
+            {
+                if (this.FinishedPlayers == null)
+                    return 0;
+                return this.FinishedPlayers.Count;
+            }
+        }
+        public int ExceptedFinishCount;
 
         /// <summary>
         /// List of users who are expected to join this room. In matchmaking, Photon blocks a slot for each of these UserIDs out of the MaxPlayers.
@@ -276,13 +297,13 @@ namespace Photon.Realtime
         }
 
         /// <summary>
-        /// Gets if this room cleans up the event cache when a player (actor) leaves.
+        /// Gets if this room cleans up the event cache when a player (actor) leaves. 
         /// </summary>
         /// <remarks>
         /// This affects which events joining players get.
-        ///
+        /// 
         /// Set in room creation via RoomOptions.CleanupCacheOnLeave.
-        ///
+        /// 
         /// Within PUN, auto cleanup of events means that cached RPCs and instantiated networked objects are deleted from the room.
         /// </remarks>
         public bool AutoCleanUp
@@ -313,7 +334,6 @@ namespace Photon.Realtime
         /// <summary>Creates a Room (representation) with given name and properties and the "listing options" as provided by parameters.</summary>
         /// <param name="roomName">Name of the room (can be null until it's actually created on server).</param>
         /// <param name="options">Room options.</param>
-        /// <param name="isOffline">Signal if this room is only used locally.</param>
         public Room(string roomName, RoomOptions options, bool isOffline = false) : base(roomName, options != null ? options.CustomRoomProperties : null)
         {
             // base() sets name and (custom)properties. here we set "well known" properties
@@ -425,7 +445,7 @@ namespace Photon.Realtime
 
                 // invoking callbacks
                 this.LoadBalancingClient.InRoomCallbackTargets.OnRoomPropertiesUpdate(propertiesToSet);
-
+               
             }
             else
             {
@@ -520,6 +540,22 @@ namespace Photon.Realtime
             return false;
         }
 
+        public virtual bool AddFinishedPlayer(Player player)
+        {
+            if (!this.FinishedPlayers.ContainsKey(player.ActorNumber))
+            {
+                this.StoreFinishedPlayer(player);
+                return true;
+            }
+
+            return false;
+        }
+        public virtual Player StoreFinishedPlayer(Player player)
+        {
+            this.FinishedPlayers[player.ActorNumber] = player;
+            player.RoomReference = this;
+            return player;
+        }
         /// <summary>
         /// Updates a player reference in the Players dictionary (no matter if it existed before or not).
         /// </summary>
@@ -548,7 +584,7 @@ namespace Photon.Realtime
         public virtual Player GetPlayer(int id, bool findMaster = false)
         {
             int idToFind = (findMaster && id == 0) ? this.MasterClientId : id;
-
+            
             Player result = null;
             this.Players.TryGetValue(idToFind, out result);
 

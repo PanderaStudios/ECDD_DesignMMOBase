@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 695df591-7f6c-4d63-8d96-c768fa99d7d5
+    AppIdRealtime: 936917c5-84d2-48bd-879f-6081a260d85e
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 0.1
+    AppVersion: 1.0
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: sa
     Server: 
     Port: 0
     ProxyServer: 
@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: us
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -39,16 +39,44 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - AddFinishedPlayerRPC
-  - ChangeCubeColor
+  - EnableCollider
   - ChangeProperties
   - DestroyCube
+  - ChangeCubeColor
+  - AddFinishedPlayerRPC
   - LoadNextLevelRPC
   - OnGameFinishedRPC
   - PlayerCountInfoPanelRPC
   - RequestMasterClientChange
   - SetNicknameRPC
   - UpdateDissolveValue
+  - callWin
+  - death
+  - deathCounter
+  - Destroy
+  - DestroyBomb
+  - DestroyBonusHealth
+  - EnableLobby
+  - Endgame
+  - HealthBoost
+  - HealthUpdate
+  - KillCounter
+  - Revive
+  - rotate
+  - DestroyPlayerGO
+  - TakeDamage
+  - RPC_GetKill
+  - RPC_Shoot
+  - RPC_TakeDamage
+  - GetInfoAbout
+  - GetLastPlayerTouch
+  - GetPlayerTeamInfo
+  - PlayRemoteMoveSound
+  - ShowFfCard
+  - UpdateActivePlayerText
+  - UpdateRoomTextRPC
+  - UpdateTheData
+  - UpdateTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
