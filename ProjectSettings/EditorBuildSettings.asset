@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/_PROJECT/SCENES/LobbyECCD.unity
     guid: 54a4e2ea526f79c48b4d07090cfe829c
   - enabled: 0
@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_PROJECT/SCENES/GardenSceneMMO.unity
     guid: 9cf9af0bc5044d142b7b8489af297b80
-  - enabled: 1
+  - enabled: 0
     path: Assets/_PROJECT/TPS_SLAPGUYS/Scenes/Lobby.unity
     guid: b23766b2a7bd11043bba2c96ccc55d49
   - enabled: 1

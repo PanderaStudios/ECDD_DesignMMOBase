@@ -1609,8 +1609,8 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2016,7 +2016,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f556762734cb7a84badffc38d3b1063b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenoOasis: Level1-1
   _loginPanel: {fileID: 1979440084}
   _startPanel: {fileID: 1765714522}
   _waitingPanel: {fileID: 1664300392}
@@ -2024,7 +2023,7 @@ MonoBehaviour:
   userNickname: {fileID: 1765439230}
   userNicknameInput: {fileID: 1911044199}
   roomInfoText: {fileID: 221396801}
-  maxPlayers: 1
+  maxPlayers: 4
 --- !u!4 &1039912320
 Transform:
   m_ObjectHideFlags: 0

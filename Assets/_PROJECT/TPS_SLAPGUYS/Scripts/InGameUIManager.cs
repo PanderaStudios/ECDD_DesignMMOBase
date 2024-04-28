@@ -35,11 +35,11 @@ public class InGameUIManager : MonoBehaviourPunCallbacks
     }
     private void HideTimer()
     {
-        TimerText.gameObject.SetActive(false);
+        TimerText?.gameObject?.SetActive(false);
     }
     private void ShowTimer()
     {
-        TimerText.gameObject.SetActive(true);
+        TimerText?.gameObject?.SetActive(true);
     }
     public void OnPlayerFinish(FinishState state)
     {

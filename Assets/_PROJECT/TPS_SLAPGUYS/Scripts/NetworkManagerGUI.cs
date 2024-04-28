@@ -19,6 +19,8 @@ public class NetworkManagerGUI : MonoBehaviourPunCallbacks
 
     [SerializeField] Text roomInfoText;
 
+    [SerializeField] byte maxPlayers = 1;
+
     public List<Player> playerList = new();
     #endregion
 
@@ -70,7 +72,7 @@ public class NetworkManagerGUI : MonoBehaviourPunCallbacks
         Debug.Log("Join Random Failed");
         RoomOptions roomOptions = new()
         {
-            MaxPlayers = 1
+            MaxPlayers = maxPlayers
         };
         
         string roomName = "Room" + Random.Range(0, 100);
@@ -87,7 +89,7 @@ public class NetworkManagerGUI : MonoBehaviourPunCallbacks
         if (playersCount == maxPlayers && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("Level3-1");
+            PhotonNetwork.LoadLevel("Level1-1");
         }
     }
     #endregion
