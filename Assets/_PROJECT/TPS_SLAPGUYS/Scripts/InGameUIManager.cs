@@ -36,6 +36,9 @@ public class InGameUIManager : MonoBehaviourPunCallbacks
     private void HideTimer()
     {
         TimerText?.gameObject?.SetActive(false);
+
+        CountdownTimerSync.OnCountdownTimerHasExpired -= HideTimer;
+        CountdownTimerSync.OnCountdownTimerHasStarted -= ShowTimer;
     }
     private void ShowTimer()
     {

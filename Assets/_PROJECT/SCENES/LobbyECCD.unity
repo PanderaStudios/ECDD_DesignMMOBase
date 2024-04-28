@@ -2023,7 +2023,7 @@ MonoBehaviour:
   userNickname: {fileID: 1765439230}
   userNicknameInput: {fileID: 1911044199}
   roomInfoText: {fileID: 221396801}
-  maxPlayers: 4
+  maxPlayers: 1
 --- !u!4 &1039912320
 Transform:
   m_ObjectHideFlags: 0

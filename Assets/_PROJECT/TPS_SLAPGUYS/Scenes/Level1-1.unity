@@ -11380,7 +11380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startedPlayersCount: 0
-  debugMode: 1
+  debugMode: 0
 --- !u!1 &830860164
 GameObject:
   m_ObjectHideFlags: 0

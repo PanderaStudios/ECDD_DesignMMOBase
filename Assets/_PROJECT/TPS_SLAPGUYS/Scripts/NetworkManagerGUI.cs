@@ -35,7 +35,8 @@ public class NetworkManagerGUI : MonoBehaviourPunCallbacks
         if (playersCount == maxPlayers && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen= false;
-            PhotonNetwork.LoadLevel("Level1-1");
+            //PhotonNetwork.LoadLevel("Level1-1");
+            PhotonNetwork.LoadLevel(1);
         }
         else if(!PhotonNetwork.IsMasterClient)
         {
@@ -89,7 +90,8 @@ public class NetworkManagerGUI : MonoBehaviourPunCallbacks
         if (playersCount == maxPlayers && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("Level1-1");
+            //PhotonNetwork.LoadLevel("Level1-1");
+            PhotonNetwork.LoadLevel(1);
         }
     }
     #endregion

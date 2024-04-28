@@ -238,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632d6fde5bb414c4c97332d9b36bb6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnTransform: {fileID: 0}
   _characterMeshGO: {fileID: 1820497397781641007}
   _characterMaterial: {fileID: 2100000, guid: d602f44fc1de1ee48b46d7fa0b36ea9f, type: 2}
   Mixvalue: 0
@@ -323,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 8aecf8e801769054b89ca2a0eef6f2d2, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: a6be9c7dae49a014ea8f46cf3891b34b, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:

@@ -14,18 +14,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_PROJECT/SCENES/GardenSceneMMO.unity
     guid: 9cf9af0bc5044d142b7b8489af297b80
-  - enabled: 0
-    path: Assets/_PROJECT/TPS_SLAPGUYS/Scenes/Lobby.unity
-    guid: b23766b2a7bd11043bba2c96ccc55d49
   - enabled: 1
-    path: Assets/_PROJECT/TPS_SLAPGUYS/Scenes/Level1-1.unity
-    guid: d3d140a554ac7544e9cec5296aa561de
-  - enabled: 1
-    path: Assets/_PROJECT/TPS_SLAPGUYS/Scenes/Level2-1.unity
-    guid: 6e3f5e674fc52ac40a2081be4eda03a4
-  - enabled: 1
-    path: Assets/_PROJECT/TPS_SLAPGUYS/Scenes/Level3-1.unity
-    guid: c3c8bbee681e6644b958cc0d1b25a739
+    path: Assets/_PROJECT/SCENES/Level1.unity
+    guid: 87a6bdaa2f8edec468df9801c0049467
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 290a6e6411d135049940bec2237b8938, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

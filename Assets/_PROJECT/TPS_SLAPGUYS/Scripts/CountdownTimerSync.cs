@@ -62,6 +62,7 @@ public class CountdownTimerSync : MonoBehaviourPunCallbacks
         if (countdown > 0.0f) 
             return;
 
+        isTimerRunning = false;
         OnTimerEnds();
     }
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
