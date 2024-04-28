@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/_PROJECT/SCENES/GardenSceneMMO.unity
     guid: 9cf9af0bc5044d142b7b8489af297b80
   - enabled: 1
+    path: Assets/_PROJECT/SCENES/SpaceStationMMO.unity
+    guid: 9ce589ae18bdc2e478aed95ab43204f3
+  - enabled: 0
     path: Assets/_PROJECT/SCENES/Level1.unity
     guid: 87a6bdaa2f8edec468df9801c0049467
   m_configObjects:
